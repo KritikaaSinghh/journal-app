@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Journal ✦ Dreamy Diary</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root{
+        color-scheme:light;--bg:#fff7fc;--surface:rgba(255,255,255,.72);--solid:#fffaff;--text:#493b5c;--muted:#988ba7;--purple:#a27bd8;--pink:#e9a5cd;--blue:#a7c7ef;--border:rgba(172,140,207,.24);--shadow:0 18px 50px rgba(138,105,175,.14);--soft:linear-gradient(135deg,#f8e5f2,#e9e5fc);--input:rgba(255,255,255,.83);--accent:linear-gradient(115deg,#dca9d7,#a8b5ec,#e4a9d4);--card-glow:rgba(198,160,230,.17)
+        }
+        body.dark-mode{
+        color-scheme:dark;--bg:#191525;--surface:rgba(42,34,59,.83);--solid:#2b233b;--text:#f6edff;--muted:#b9aaca;--purple:#c09ae9;--pink:#e8acd8;--blue:#a8c9ed;--border:rgba(201,170,236,.22);--shadow:0 20px 55px rgba(0,0,0,.32);--soft:linear-gradient(135deg,#463653,#393450);--input:rgba(49,41,66,.88);--accent:linear-gradient(115deg,#986fc7,#797ec7,#c27db6);--card-glow:rgba(174,128,231,.13)
+        }
+        *{box-sizing:border-box;margin:0;padding:0}
+        html{scroll-behavior:smooth}
+        body{min-height:100vh;overflow-x:hidden;font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);transition:background .45s,color .45s}
+        button,input,textarea,select{font:inherit}
+        button{cursor:pointer}
+        .hidden{display:none!important}
+        h1,h2,h3{font-family:'Playfair Display',serif}
+        h2{font-size:26px;margin-bottom:19px}
+        p{line-height:1.7}
+        .ambient{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:-5}
+        .ambient-orb{position:absolute;border-radius:50%;filter:blur(2px);opacity:.58;animation:orbDrift 15s ease-in-out infinite alternate}
+        .orb-a{width:420px;height:420px;left:-150px;top:-150px;background:radial-gradient(circle,#f7c7e2,transparent 70%)}
+        .orb-b{width:500px;height:500px;right:-180px;top:20%;background:radial-gradient(circle,#d2c4fa,transparent 70%);animation-delay:-5s}
+        .orb-c{width:400px;height:400px;bottom:-180px;left:30%;background:radial-gradient(circle,#c6e7f6,transparent 70%);animation-delay:-8s}
+        body.dark-mode .ambient-orb{opacity:.3;filter:blur(15px)}
+        body.dark-mode .orb-a{background:radial-gradient(circle,#a65dc5,transparent 70%)}
+        body.dark-mode .orb-b{background:radial-gradient(circle,#6959bd,transparent 70%)}
+        body.dark-mode .orb-c{background:radial-gradient(circle,#477fae,transparent 70%)}
+        @keyframes orbDrift{from{transform:translate(0,0) scale(1)}to{transform:translate(65px,55px) scale(1.18)}}
+        .floating-world{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:-1}
+        .float-item{position:absolute;bottom:-90px;opacity:0;animation:floatUp 19s linear infinite;filter:drop-shadow(0 5px 8px rgba(130,90,170,.2))}
+        .float-item:nth-child(1){left:7%;font-size:28px;animation-delay:0s}
+        .float-item:nth-child(2){left:25%;font-size:19px;animation-delay:5s}
+        .float-item:nth-child(3){left:48%;font-size:30px;animation-delay:2s}
+        .float-item:nth-child(4){left:70%;font-size:23px;animation-delay:8s}
+        .float-item:nth-child(5){left:89%;font-size:32px;animation-delay:12s}
+        .float-item:nth-child(6){left:58%;font-size:16px;animation-delay:10s}
+        @keyframes floatUp{0%{transform:translateY(0) rotate(0);opacity:0}12%{opacity:.65}50%{transform:translateY(-52vh) translateX(35px) rotate(22deg)}100%{transform:translateY(-112vh) translateX(-25px) rotate(-25deg);opacity:0}}
+        header{position:relative;z-index:2;padding:22px 6%;display:flex;align-items:center;justify-content:space-between;gap:15px;flex-wrap:wrap;background:var(--surface);border-bottom:1px solid var(--border);backdrop-filter:blur(22px)}
+        .brand{display:flex;align-items:center;gap:14px}
+        .brand-icon{width:54px;height:54px;border-radius:19px;display:grid;place-items:center;font-size:28px;background:linear-gradient(145deg,#f7cde7,#d4c7fb,#c5e5f5);box-shadow:7px 7px 15px rgba(147,119,181,.22),-5px -5px 14px rgba(255,255,255,.8),inset 1px 1px 3px white;animation:softBounce 4s ease-in-out infinite}
+        body.dark-mode .brand-icon{background:linear-gradient(145deg,#67466f,#514a83,#345d7c);box-shadow:0 8px 25px #0005,0 0 20px #ae8be044}
+        .brand h1{font-size:28px;letter-spacing:-.5px}
+        .brand p{color:var(--muted);font-size:12px}
+        @keyframes softBounce{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-6px) rotate(3deg)}}
+        main{max-width:1160px;margin:38px auto;padding:0 22px}
+        .glass-card{background:var(--surface);border:1px solid var(--border);border-radius:27px;padding:27px;box-shadow:var(--shadow);backdrop-filter:blur(22px);margin-bottom:25px;position:relative;transition:transform .35s,box-shadow .35s,background .4s;animation:riseIn .65s ease both}
+        .glass-card:hover{box-shadow:0 23px 60px var(--card-glow),var(--shadow)}
+        @keyframes riseIn{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+        .btn{border:1px solid transparent;border-radius:15px;padding:12px 19px;color:white;font-weight:700;background:linear-gradient(135deg,#a98be1,#8d70c8);box-shadow:0 8px 18px rgba(146,112,194,.23);transition:transform .25s,box-shadow .25s,filter .25s}
+        .btn:hover{transform:translateY(-4px);box-shadow:0 13px 25px rgba(146,112,194,.3);filter:brightness(1.05)}
+        .btn:active{transform:scale(.97)}
+        .btn-soft{color:var(--text);background:var(--soft);border-color:var(--border)}
+        .btn-danger{background:linear-gradient(135deg,#ef91ac,#d9587e)}
+        .btn-favorite{background:linear-gradient(135deg,#ffe8ae,#f5cd7d);color:#76501e}
+        .btn-favorite.active{background:linear-gradient(135deg,#f8d675,#e9ae4c);color:#664000}
+        body.dark-mode .btn-favorite{background:linear-gradient(135deg,#715535,#9a7445);color:#fff1c7}
+        body.dark-mode .btn-favorite.active{background:linear-gradient(135deg,#bd8d43,#e1b45d);color:#30200a}
+        .toolbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+        #authSection{width:min(100%,760px);margin:35px auto 55px;padding:48px 42px 40px;border-radius:39px;position:relative;overflow:hidden;isolation:isolate;background:linear-gradient(145deg,rgba(255,255,255,.88),rgba(255,249,255,.72));border:1px solid rgba(255,255,255,.9);box-shadow:20px 25px 65px rgba(144,109,174,.18),-8px -8px 28px rgba(255,255,255,.8),inset 0 1px 2px white;backdrop-filter:blur(28px);animation:loginAppear .9s cubic-bezier(.2,.8,.2,1) both}
+        body.dark-mode #authSection{background:linear-gradient(145deg,rgba(51,41,68,.96),rgba(34,29,50,.96));border:1px solid rgba(206,176,239,.3);box-shadow:18px 24px 65px rgba(0,0,0,.4),inset 0 1px 1px rgba(255,255,255,.1),0 0 35px rgba(167,122,221,.14)}
+        #authSection:before,#authSection:after{content:"";position:absolute;border-radius:50%;pointer-events:none;z-index:-1}
+        #authSection:before{width:300px;height:300px;right:-160px;top:-160px;background:radial-gradient(circle,#e8cafa,transparent 70%)}
+        #authSection:after{width:270px;height:270px;bottom:-160px;left:-120px;background:radial-gradient(circle,#f5cce5,transparent 70%)}
+        body.dark-mode #authSection:before{background:radial-gradient(circle,#9d69c9,transparent 70%)}
+        body.dark-mode #authSection:after{background:radial-gradient(circle,#a65391,transparent 70%)}
+        @keyframes loginAppear{from{opacity:0;transform:translateY(35px) scale(.96)}to{opacity:1;transform:translateY(0) scale(1)}}
+        .auth-top{text-align:center;margin-bottom:34px;position:relative}
+        .butterfly-stage{width:132px;height:132px;margin:0 auto 22px;border-radius:37px;display:grid;place-items:center;font-size:68px;background:linear-gradient(145deg,#f7d8ef,#d8d0fa,#cceafa);box-shadow:12px 13px 28px rgba(135,106,175,.24),-8px -8px 22px rgba(255,255,255,.9),inset 1px 1px 3px white;animation:butterflyStage 5s ease-in-out infinite}
+        body.dark-mode .butterfly-stage{background:linear-gradient(145deg,#765178,#514b82,#385d83);box-shadow:0 15px 35px #0005,0 0 28px #c79bf044}
+        @keyframes butterflyStage{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-9px) rotate(3deg)}}
+        .auth-top h2{font-size:39px;margin-bottom:9px;letter-spacing:-1px}
+        .auth-top p{color:var(--muted);font-size:16px}
+        .auth-input{position:relative;margin-bottom:18px}
+        .auth-input .input-icon{position:absolute;left:17px;top:15px;font-size:19px;z-index:1}
+        .auth-input input{width:100%;padding:17px 55px 17px 52px;margin:0;border:1px solid var(--border);border-radius:19px;background:var(--input);color:var(--text);font-size:16px;box-shadow:inset 3px 3px 7px rgba(120,95,155,.04)}
+        .password-toggle{position:absolute;right:9px;top:5px;background:transparent;border:0;color:var(--purple);padding:9px;font-size:19px;box-shadow:none}
+        .password-toggle:hover{transform:scale(1.13);box-shadow:none;background:transparent}
+        .remember-row{display:flex;align-items:center;gap:9px;margin:13px 0 19px;color:var(--muted);font-size:14px;cursor:pointer}
+        .remember-row input{width:17px;height:17px;margin:0;accent-color:#a27bd8}
+        .auth-submit{width:100%;padding:18px;border:0;border-radius:18px;color:white;font-size:17px;font-weight:800;background:var(--accent);background-size:200% auto;box-shadow:0 13px 25px rgba(159,122,199,.27);animation:gradientFlow 7s linear infinite}
+        body.dark-mode .auth-submit{box-shadow:0 13px 28px rgba(135,95,193,.28),0 0 20px #b18be633}
+        @keyframes gradientFlow{to{background-position:200% center}}
+        .auth-switch{margin-top:27px;text-align:center;color:var(--muted)}
+        .auth-switch button{margin-top:11px}
+        #authMessage{text-align:center;color:var(--purple);margin-top:12px;overflow-wrap:anywhere}
+        input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus,input:-webkit-autofill:active{-webkit-text-fill-color:var(--text)!important;caret-color:var(--text);transition:background-color 9999s ease-in-out 0s;box-shadow:0 0 0 1000px var(--input) inset!important}
+        .auth-top h2,.auth-top p{user-select:none;-webkit-user-select:none}
+        #userBar{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:23px 28px}
+        #userBar h2{margin:0;font-size:29px}
+        .welcome-heart{display:inline-block;animation:heartBeat 1.8s infinite}
+        @keyframes heartBeat{0%,100%{transform:scale(1)}15%{transform:scale(1.2)}30%{transform:scale(1)}45%{transform:scale(1.12)}}
+        input,textarea,select{width:100%;padding:14px 16px;border:1px solid var(--border);border-radius:14px;background:var(--input);color:var(--text);margin-bottom:14px;outline:none;transition:border .25s,box-shadow .25s}
+        input:focus,textarea:focus,select:focus{border-color:var(--purple);box-shadow:0 0 0 4px rgba(166,133,214,.14)}
+        input::placeholder,textarea::placeholder{color:var(--muted)}
+        textarea{min-height:140px;resize:vertical}
+        select option{background:var(--solid);color:var(--text)}
+        .field-label{display:block;font-size:14px;font-weight:700;margin:2px 0 8px}
+        #message,#filterMessage{color:var(--purple);margin-top:12px;font-size:14px}
+        .analytics-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:18px 0 25px}
+        .stat-card{min-width:0;padding:20px 17px;border:1px solid var(--border);border-radius:20px;background:var(--soft);display:flex;flex-direction:column;gap:8px;box-shadow:0 9px 24px var(--card-glow);text-align:center}
+        .stat-card strong{font-family:'Playfair Display',serif;font-size:27px;line-height:1.25;overflow-wrap:anywhere}
+        .stat-card span{font-size:13px;color:var(--muted);font-weight:700}
+        #moodAnalytics h3{font-size:21px;margin:22px 0 14px}
+        #moodChart{display:grid;gap:13px}
+        .mood-row{display:grid;grid-template-columns:minmax(145px,190px) minmax(0,1fr);align-items:center;gap:15px}
+        .mood-row-label{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:14px}
+        .mood-row-label strong{font-size:14px}
+        .mood-track{height:12px;border-radius:20px;background:rgba(160,135,190,.16);overflow:hidden}
+        .mood-fill{height:100%;min-width:0;border-radius:20px;background:linear-gradient(90deg,#e6a9d4,#a88be0,#9fc9ed);transition:width .6s ease}
+        body.dark-mode .mood-track{background:rgba(255,255,255,.1)}
+        .calendar-header{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:20px}
+        .calendar-header h2{margin:0}
+        .calendar-header .toolbar{justify-content:center}
+        #calendarMonthLabel{min-width:145px;text-align:center;font-size:17px}
+        .calendar-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px}
+        .calendar-weekday{text-align:center;font-size:13px;font-weight:800;color:var(--muted);padding:8px 2px}
+        .calendar-day{position:relative;display:flex;align-items:center;justify-content:center;min-width:0;min-height:48px;padding:8px 4px;margin:0;border:1px solid var(--border);border-radius:13px;background:var(--input);color:var(--text);font-weight:700;transition:transform .2s,background .2s,border-color .2s}
+        .calendar-day:hover{transform:translateY(-3px);border-color:var(--purple);box-shadow:0 7px 15px var(--card-glow)}
+        .calendar-day.muted{opacity:.35}
+        .calendar-day.has-entry{background:var(--soft);border-color:var(--purple)}
+        .calendar-day.selected{background:var(--accent);color:white;border-color:transparent;box-shadow:0 6px 16px var(--card-glow)}
+        .calendar-dot{position:absolute;bottom:5px;width:5px;height:5px;border-radius:50%;background:#e58cbe}
+        .calendar-day.selected .calendar-dot{background:white}
+        .filter-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+        .filter-grid input{margin-bottom:0}
+        .filter-buttons{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+        #entries{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+        .entry{min-width:0;padding:23px;border:1px solid var(--border);border-radius:23px;background:var(--surface);box-shadow:var(--shadow);backdrop-filter:blur(18px);overflow-wrap:anywhere;animation:riseIn .5s ease both;transition:transform .25s,box-shadow .25s,border-color .25s}
+        .entry:hover{transform:translateY(-4px);box-shadow:0 18px 38px var(--card-glow),var(--shadow);border-color:var(--purple)}
+        .entry h3{font-size:22px;line-height:1.35;margin-bottom:8px}
+        .entry small{display:block;color:var(--muted);font-size:12px;margin-bottom:13px}
+        .entry-meta{display:flex;flex-wrap:wrap;align-items:center;gap:7px;margin:0 0 13px}
+        .category-badge,.tag-badge{display:inline-flex;align-items:center;padding:5px 10px;border-radius:30px;background:var(--soft);border:1px solid var(--border);font-size:12px;font-weight:700;color:var(--text)}
+        .tag-badge{background:rgba(231,172,211,.16)}
+        .entry>p{white-space:pre-wrap;line-height:1.75;font-size:14px;margin:0 0 17px}
+        .entry-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+        .entry-actions .btn{padding:10px 13px;font-size:13px;flex:1 1 auto}
+        button:disabled{opacity:.55;cursor:not-allowed;transform:none!important}
+        #search{margin:0 0 18px}
+        #journalSection>section:last-child>.toolbar{margin-bottom:15px}
+        #journalSection>section:last-child>.toolbar h2{margin:0}
+        #filterMessage,#calendarMessage,#analyticsMessage{font-size:13px;color:var(--muted)}
+        body.dark-mode .entry,body.dark-mode .glass-card{border-color:var(--border)}
+        @media(max-width:760px){
+        main{margin:22px auto;padding:0 14px}
+        .glass-card{padding:20px;border-radius:22px}
+        #entries{grid-template-columns:1fr}
+        .analytics-grid{grid-template-columns:1fr}
+        .stat-card{flex-direction:row;align-items:center;justify-content:space-between;text-align:left;padding:15px 17px}
+        .stat-card strong{font-size:23px}
+        .stat-card span{max-width:58%;text-align:right}
+        }
+        @media(max-width:480px){
+        #authSection{padding:32px 20px;border-radius:28px}
+        .auth-top h2{font-size:30px}
+        .butterfly-stage{width:105px;height:105px;font-size:55px}
+        .calendar-grid{gap:4px}
+        .calendar-day{min-height:40px;border-radius:9px;font-size:13px}
+        .calendar-weekday{font-size:11px}
+        .calendar-header{align-items:flex-start}
+        .calendar-header .toolbar{width:100%;justify-content:space-between}
+        .mood-row{grid-template-columns:1fr;gap:6px}
+        .filter-grid{grid-template-columns:1fr}
+        .entry-actions .btn{flex:1 1 100%}
+        }
+    </style>
+</head>
+<body>
+<div class="ambient">
+    <div class="ambient-orb orb-a"></div>
+    <div class="ambient-orb orb-b"></div>
+    <div class="ambient-orb orb-c"></div>
+</div>
+<div class="floating-world">
+    <span class="float-item">🦋</span>
+    <span class="float-item">✦</span>
+    <span class="float-item">💗</span>
+    <span class="float-item">🦋</span>
+    <span class="float-item">✨</span>
+    <span class="float-item">♡</span>
+</div>
+<header>
+    <div class="brand">
+        <div class="brand-icon">📖</div>
+        <div>
+            <h1>My Journal ✨</h1>
+            <p>A little universe made just for you</p>
+        </div>
+    </div>
+</header>
+<main>
+    <section id="authSection">
+        <div class="auth-top">
+            <div class="butterfly-stage">🦋</div>
+            <h2 id="authHeading">Welcome Back 💗</h2>
+            <p>Every thought deserves a beautiful place.</p>
+        </div>
+        <form id="authForm">
+            <div class="auth-input">
+                <span class="input-icon">👤</span>
+                <input type="text" id="authUsername" placeholder="Your username" autocomplete="username" maxlength="50" required>
+            </div>
+            <div class="auth-input">
+                <span class="input-icon">🔒</span>
+                <input type="password" id="authPassword" placeholder="Your password" autocomplete="current-password" required>
+                <button type="button" id="passwordToggle" class="password-toggle" aria-label="Show password">👁️</button>
+            </div>
+            <label class="remember-row">
+                <input type="checkbox" id="rememberMe">
+                Remember my username 💗
+            </label>
+            <button type="submit" id="authButton" class="auth-submit">Login to Your Journal ✨</button>
+        </form>
+        <p id="authMessage" role="status"></p>
+        <div class="auth-switch">
+            <p id="authSwitchText">Don't have an account?</p>
+            <button type="button" id="authSwitchButton" class="btn btn-soft">Create Account 💜</button>
+        </div>
+    </section>
+    <section id="journalSection" class="hidden">
+        <div id="userBar" class="glass-card">
+            <h2>Welcome, <span id="currentUsername"></span> <span class="welcome-heart">💜</span></h2>
+            <div class="toolbar">
+                <button type="button" id="themeToggle" class="btn btn-soft">🌙 Dark Mode</button>
+                <button type="button" id="logoutButton" class="btn btn-danger">Logout</button>
+            </div>
+        </div>
+        <section class="glass-card" id="moodAnalytics">
+            <h2>Mood Analytics 📊</h2>
+            <div class="analytics-grid">
+                <div class="stat-card"><strong id="totalEntriesStat">0</strong><span>Total Journal Entries</span></div>
+                <div class="stat-card"><strong id="trackedMoodsStat">0</strong><span>Entries with a Mood</span></div>
+                <div class="stat-card"><strong id="topMoodStat">—</strong><span>Most Selected Mood</span></div>
+            </div>
+            <h3>Mood Distribution</h3>
+            <div id="moodChart"></div>
+            <p id="analyticsMessage">Loading mood analytics...</p>
+        </section>
+        <section class="glass-card">
+            <h2 id="formHeading">Write a new entry ✍️</h2>
+            <form id="journalForm">
+                <input type="text" id="title" placeholder="Give your entry a title..." maxlength="150" required>
+                <textarea id="content" placeholder="What's on your mind today?" required></textarea>
+                <label class="field-label" for="category">Category</label>
+                <select id="category">
+                    <option value="">Select a category (optional)</option>
+                    <option value="Personal">Personal</option>
+                    <option value="Learning">Learning</option>
+                    <option value="Work">Work</option>
+                    <option value="Health">Health</option>
+                    <option value="Travel">Travel</option>
+                    <option value="Other">Other</option>
+                </select>
+                <label class="field-label" for="mood">Your mood today 💗</label>
+                <select id="mood">
+                    <option value="">Select your mood (optional)</option>
+                    <option value="Happy">😊 Happy</option>
+                    <option value="Sad">😢 Sad</option>
+                    <option value="Excited">🤩 Excited</option>
+                    <option value="Stressed">😰 Stressed</option>
+                    <option value="Calm">😌 Calm</option>
+                    <option value="Grateful">🥰 Grateful</option>
+                </select>
+                <label class="field-label" for="tags">Tags</label>
+                <input type="text" id="tags" placeholder="Java, Spring Boot, MongoDB...">
+                <div class="toolbar">
+                    <button type="submit" id="saveButton" class="btn">Save Entry 💜</button>
+                    <button type="button" id="cancelButton" class="btn btn-soft hidden">Cancel Edit</button>
+                </div>
+            </form>
+            <p id="message" role="status"></p>
+        </section>
+        <section class="glass-card" id="calendarSection">
+            <div class="calendar-header">
+                <h2>Journal Calendar 🗓️</h2>
+                <div class="toolbar">
+                    <button type="button" id="prevMonth" class="btn btn-soft">←</button>
+                    <strong id="calendarMonthLabel"></strong>
+                    <button type="button" id="nextMonth" class="btn btn-soft">→</button>
+                </div>
+            </div>
+            <div id="calendarGrid" class="calendar-grid"></div>
+            <p id="calendarMessage" style="margin-top:14px">Select a highlighted date to view that day's entries.</p>
+            <button type="button" id="clearCalendarDate" class="btn btn-soft" style="margin-top:12px">Show All Dates</button>
+        </section>
+        <section>
+            <div class="toolbar" style="justify-content:space-between;margin-bottom:15px">
+                <h2>Your Entries 📖</h2>
+                <button type="button" id="favoritesToggle" class="btn btn-soft">⭐ Show Favorites</button>
+            </div>
+            <input type="search" id="search" placeholder="Search your memories... 🔎">
+            <section class="glass-card">
+                <h2>Find Memories by Date 📅</h2>
+                <div class="filter-grid">
+                    <div>
+                        <label class="field-label" for="startDate">Start Date</label>
+                        <input type="date" id="startDate">
+                    </div>
+                    <div>
+                        <label class="field-label" for="endDate">End Date</label>
+                        <input type="date" id="endDate">
+                    </div>
+                </div>
+                <div class="filter-buttons">
+                    <button type="button" id="applyDateFilter" class="btn">Apply Filter</button>
+                    <button type="button" id="clearDateFilter" class="btn btn-soft">Clear Filter</button>
+                </div>
+                <p id="filterMessage" role="status"></p>
+            </section>
+            <div id="entries">Your memories will appear here.</div>
+        </section>
+    </section>
+</main>
+
+<script>
+    const AUTH_URL="/api/auth";
+    const API_URL="/api/journal";
+    const $=id=>document.getElementById(id);
+    const authSection=$("authSection");
+    const journalSection=$("journalSection");
+    const authForm=$("authForm");
+    const authUsername=$("authUsername");
+    const authPassword=$("authPassword");
+    const authHeading=$("authHeading");
+    const authButton=$("authButton");
+    const authMessage=$("authMessage");
+    const authSwitchText=$("authSwitchText");
+    const authSwitchButton=$("authSwitchButton");
+    const passwordToggle=$("passwordToggle");
+    const rememberMe=$("rememberMe");
+    const currentUsername=$("currentUsername");
+    const logoutButton=$("logoutButton");
+    const themeToggle=$("themeToggle");
+    const form=$("journalForm");
+    const titleInput=$("title");
+    const contentInput=$("content");
+    const categoryInput=$("category");
+    const moodInput=$("mood");
+    const tagsInput=$("tags");
+    const saveButton=$("saveButton");
+    const cancelButton=$("cancelButton");
+    const entriesContainer=$("entries");
+    const message=$("message");
+    const searchInput=$("search");
+    const startDateInput=$("startDate");
+    const endDateInput=$("endDate");
+    const applyDateFilterButton=$("applyDateFilter");
+    const clearDateFilterButton=$("clearDateFilter");
+    const filterMessage=$("filterMessage");
+    const favoritesToggle=$("favoritesToggle");
+    const calendarGrid=$("calendarGrid");
+    const calendarMonthLabel=$("calendarMonthLabel");
+    const calendarMessage=$("calendarMessage");
+    const moodOptions=[
+    {name:"Happy",emoji:"😊"},
+    {name:"Sad",emoji:"😢"},
+    {name:"Excited",emoji:"🤩"},
+    {name:"Stressed",emoji:"😰"},
+    {name:"Calm",emoji:"😌"},
+    {name:"Grateful",emoji:"🥰"}
+    ];
+    let isRegisterMode=false;
+    let currentUser=null;
+    let entries=[];
+    let editingId=null;
+    let dateFilterActive=false;
+    let favoritesMode=false;
+    let calendarEntries=[];
+    let calendarMonth=new Date();
+    let selectedCalendarDate=null;
+
+    function updateThemeButton(){
+    const dark=document.body.classList.contains("dark-mode");
+    themeToggle.textContent=dark?"☀️ Light Mode":"🌙 Dark Mode";
+    }
+    function applySavedTheme(){
+    const theme=localStorage.getItem("journalTheme");
+    document.body.classList.toggle("dark-mode",theme==="dark");
+    updateThemeButton();
+    }
+    themeToggle.addEventListener("click",()=>{
+    const dark=!document.body.classList.contains("dark-mode");
+    document.body.classList.toggle("dark-mode",dark);
+    localStorage.setItem("journalTheme",dark?"dark":"light");
+    updateThemeButton();
+    });
+
+    passwordToggle.addEventListener("click",()=>{
+    const show=authPassword.type==="password";
+    authPassword.type=show?"text":"password";
+    passwordToggle.textContent=show?"🙈":"👁️";
+    passwordToggle.setAttribute("aria-label",show?"Hide password":"Show password");
+    });
+
+    const savedUsername=localStorage.getItem("journalRememberedUsername");
+    if(savedUsername){
+    authUsername.value=savedUsername;
+    rememberMe.checked=true;
+    }
+
+    authSwitchButton.addEventListener("click",()=>{
+    isRegisterMode=!isRegisterMode;
+    authHeading.textContent=isRegisterMode?"Create Your Account 💗":"Welcome Back 💗";
+    authButton.textContent=isRegisterMode?"Create Account ✨":"Login to Your Journal ✨";
+    authSwitchText.textContent=isRegisterMode?"Already have an account?":"Don't have an account?";
+    authSwitchButton.textContent=isRegisterMode?"Login 💜":"Create Account 💜";
+    authPassword.value="";
+    authMessage.textContent="";
+    });
+
+    authForm.addEventListener("submit",async event=>{
+    event.preventDefault();
+    const username=authUsername.value.trim();
+    const password=authPassword.value;
+    if(!username||!password){
+    authMessage.textContent="Please enter your username and password.";
+    return;
+    }
+    authButton.disabled=true;
+    authMessage.textContent="Opening your little universe... 💗";
+    try{
+    const endpoint=isRegisterMode?"/register":"/login";
+    const response=await fetch(AUTH_URL+endpoint,{
+    method:"POST",
+    credentials:"same-origin",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({username,password})
+    });
+    const data=await response.json().catch(()=>({}));
+    if(!response.ok)throw new Error(data.message||"Authentication failed.");
+    if(isRegisterMode){
+    authMessage.textContent="Account created! You can now log in. 💜";
+    isRegisterMode=false;
+    authHeading.textContent="Welcome Back 💗";
+    authButton.textContent="Login to Your Journal ✨";
+    authSwitchText.textContent="Don't have an account?";
+    authSwitchButton.textContent="Create Account 💜";
+    authPassword.value="";
+    return;
+    }
+    if(rememberMe.checked)localStorage.setItem("journalRememberedUsername",username);
+    else localStorage.removeItem("journalRememberedUsername");
+    currentUser=username;
+    showJournal();
+    await loadEntries();
+    }catch(error){
+    authMessage.textContent=error.message;
+    }finally{
+    authButton.disabled=false;
+    }
+    });
+
+    function showJournal(){
+    authSection.classList.add("hidden");
+    journalSection.classList.remove("hidden");
+    currentUsername.textContent=currentUser;
+    }
+    function showLogin(){
+    currentUser=null;
+    entries=[];
+    calendarEntries=[];
+    editingId=null;
+    favoritesMode=false;
+    dateFilterActive=false;
+    selectedCalendarDate=null;
+    journalSection.classList.add("hidden");
+    authSection.classList.remove("hidden");
+    entriesContainer.replaceChildren();
+    $("moodChart").replaceChildren();
+    $("totalEntriesStat").textContent="0";
+    $("trackedMoodsStat").textContent="0";
+    $("topMoodStat").textContent="—";
+    $("analyticsMessage").textContent="";
+    message.textContent="";
+    filterMessage.textContent="";
+    authPassword.value="";
+    favoritesToggle.textContent="⭐ Show Favorites";
+    startDateInput.value="";
+    endDateInput.value="";
+    resetForm();
+    renderCalendar();
+    }
+
+    logoutButton.addEventListener("click",async()=>{
+    logoutButton.disabled=true;
+    try{
+    const response=await fetch(`${AUTH_URL}/logout`,{
+    method:"POST",
+    credentials:"same-origin"
+    });
+    if(!response.ok)throw new Error("Could not log out. Please try again.");
+    showLogin();
+    authMessage.textContent="See you soon! 💗";
+    }catch(error){
+    message.textContent=error.message;
+    }finally{
+    logoutButton.disabled=false;
+    }
+    });
+
+    async function loadEntries(){
+    entriesContainer.textContent="Loading your memories... 💗";
+    try{
+    const response=await fetch(API_URL,{credentials:"same-origin"});
+    if(!response.ok)throw new Error("Could not load entries. Please log in again.");
+    entries=await response.json();
+    calendarEntries=entries.slice();
+    renderCalendar();
+    renderEntries();
+    await loadMoodStats();
+    }catch(error){
+    entriesContainer.textContent=error.message;
+    }
+    }
+
+    async function loadMoodStats(){
+    $("analyticsMessage").textContent="Reading your mood journal...";
+    try{
+    const response=await fetch(`${API_URL}/mood-stats`,{credentials:"same-origin"});
+    if(!response.ok)throw new Error("Mood analytics could not be loaded.");
+    const stats=await response.json();
+    const counts=moodOptions.map(mood=>({...mood,count:Number(stats[mood.name]||0)}));
+    const total=counts.reduce((sum,item)=>sum+item.count,0);
+    const max=Math.max(0,...counts.map(item=>item.count));
+    const top=max?counts.filter(item=>item.count===max):[];
+    $("totalEntriesStat").textContent=entries.length;
+    $("trackedMoodsStat").textContent=total;
+    $("topMoodStat").textContent=top.length?top.map(item=>`${item.emoji} ${item.name}`).join(", "):"No mood yet";
+    const chart=$("moodChart");
+    chart.replaceChildren();
+    counts.forEach(item=>{
+    const row=document.createElement("div");
+    row.className="mood-row";
+    const label=document.createElement("div");
+    label.className="mood-row-label";
+    const name=document.createElement("span");
+    name.textContent=`${item.emoji} ${item.name}`;
+    const count=document.createElement("strong");
+    count.textContent=item.count;
+    label.append(name,count);
+    const track=document.createElement("div");
+    track.className="mood-track";
+    const fill=document.createElement("div");
+    fill.className="mood-fill";
+    fill.style.width=max?`${item.count/max*100}%`:"0%";
+    track.appendChild(fill);
+    row.append(label,track);
+    chart.appendChild(row);
+    });
+    $("analyticsMessage").textContent=total?`${total} mood-tracked entries analyzed.`:"Add a mood to your entries to see your insights. 💗";
+    }catch(error){
+    $("analyticsMessage").textContent=error.message;
+    }
+    }
+
+    function dateKey(value){
+    if(!value)return"";
+    const date=new Date(value);
+    if(Number.isNaN(date.getTime()))return"";
+    const y=date.getFullYear();
+    const m=String(date.getMonth()+1).padStart(2,"0");
+    const d=String(date.getDate()).padStart(2,"0");
+    return`${y}-${m}-${d}`;
+    }
+
+    function renderCalendar(){
+    const year=calendarMonth.getFullYear();
+    const month=calendarMonth.getMonth();
+    calendarMonthLabel.textContent=calendarMonth.toLocaleDateString(undefined,{month:"long",year:"numeric"});
+    calendarGrid.replaceChildren();
+    ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].forEach(day=>{
+    const heading=document.createElement("div");
+    heading.className="calendar-weekday";
+    heading.textContent=day;
+    calendarGrid.appendChild(heading);
+    });
+    const firstDay=new Date(year,month,1).getDay();
+    const daysInMonth=new Date(year,month+1,0).getDate();
+    const previousDays=new Date(year,month,0).getDate();
+    const entryDates=new Set(calendarEntries.map(entry=>dateKey(entry.createdAt)).filter(Boolean));
+    for(let cell=0;cell<42;cell++){
+    let day,date,current=true;
+    if(cell<firstDay){
+    day=previousDays-firstDay+cell+1;
+    date=new Date(year,month-1,day);
+    current=false;
+    }else if(cell>=firstDay+daysInMonth){
+    day=cell-firstDay-daysInMonth+1;
+    date=new Date(year,month+1,day);
+    current=false;
+    }else{
+    day=cell-firstDay+1;
+    date=new Date(year,month,day);
+    }
+    const key=dateKey(date);
+    const button=document.createElement("button");
+    button.type="button";
+    button.className="calendar-day";
+    button.textContent=day;
+    if(!current)button.classList.add("muted");
+    if(entryDates.has(key)){
+    button.classList.add("has-entry");
+    const dot=document.createElement("span");
+    dot.className="calendar-dot";
+    button.appendChild(dot);
+    }
+    if(selectedCalendarDate===key)button.classList.add("selected");
+    button.addEventListener("click",()=>{
+    if(!current)calendarMonth=new Date(date.getFullYear(),date.getMonth(),1);
+    selectedCalendarDate=key;
+    startDateInput.value=key;
+    endDateInput.value=key;
+    renderCalendar();
+    applyDateFilter();
+    calendarMessage.textContent=`Showing memories for ${date.toLocaleDateString()}.`;
+    });
+    calendarGrid.appendChild(button);
+    }
+    }
+
+    $("prevMonth").addEventListener("click",()=>{
+    calendarMonth.setMonth(calendarMonth.getMonth()-1);
+    renderCalendar();
+    });
+    $("nextMonth").addEventListener("click",()=>{
+    calendarMonth.setMonth(calendarMonth.getMonth()+1);
+    renderCalendar();
+    });
+
+    async function loadCalendarEntries(){
+    try{
+    const response=await fetch(API_URL,{credentials:"same-origin"});
+    if(response.ok){
+    calendarEntries=await response.json();
+    renderCalendar();
+    }
+    }catch(error){
+    console.error("Calendar refresh failed:",error);
+    }
+    }
+
+    $("clearCalendarDate").addEventListener("click",async()=>{
+    selectedCalendarDate=null;
+    calendarMessage.textContent="Showing all memories.";
+    await clearDateFilter();
+    });
+
+    async function loadFavorites(){
+    entriesContainer.textContent="Loading your favorite memories... ⭐";
+    try{
+    const response=await fetch(`${API_URL}/favorites`,{credentials:"same-origin"});
+    if(!response.ok)throw new Error("Could not load favorites.");
+    entries=await response.json();
+    favoritesMode=true;
+    dateFilterActive=false;
+    favoritesToggle.textContent="📖 Show All Entries";
+    renderEntries();
+    }catch(error){
+    entriesContainer.textContent=error.message;
+    }
+    }
+
+    favoritesToggle.addEventListener("click",async()=>{
+    if(favoritesMode){
+    favoritesMode=false;
+    favoritesToggle.textContent="⭐ Show Favorites";
+    await loadEntries();
+    }else{
+    await loadFavorites();
+    }
+    });
+
+    async function toggleFavorite(id){
+    try{
+    const response=await fetch(`${API_URL}/${encodeURIComponent(id)}/favorite`,{
+    method:"PUT",
+    credentials:"same-origin"
+    });
+    if(!response.ok)throw new Error("Could not update favorite.");
+    const updated=await response.json();
+    await loadCalendarEntries();
+    if(favoritesMode){
+    await loadFavorites();
+    await loadMoodStats();
+    }else if(dateFilterActive){
+    await applyDateFilter();
+    await loadMoodStats();
+    }else{
+    await loadEntries();
+    }
+    message.textContent=updated.favorite?"Saved to your favorites! ⭐":"Removed from favorites.";
+    }catch(error){
+    message.textContent=error.message;
+    }
+    }
+
+    async function applyDateFilter(){
+    const start=startDateInput.value;
+    const end=endDateInput.value;
+    if(!start||!end){
+    filterMessage.textContent="Select both dates first.";
+    return;
+    }
+    if(end<start){
+    filterMessage.textContent="End date cannot be before start date.";
+    return;
+    }
+    applyDateFilterButton.disabled=true;
+    filterMessage.textContent="Finding your memories...";
+    try{
+    const url=`${API_URL}/filter?startDate=${encodeURIComponent(start)}&endDate=${encodeURIComponent(end)}`;
+    const response=await fetch(url,{credentials:"same-origin"});
+    if(!response.ok)throw new Error("Could not filter entries.");
+    entries=await response.json();
+    dateFilterActive=true;
+    favoritesMode=false;
+    favoritesToggle.textContent="⭐ Show Favorites";
+    filterMessage.textContent=`${entries.length} memories found.`;
+    renderEntries();
+    }catch(error){
+    filterMessage.textContent=error.message;
+    }finally{
+    applyDateFilterButton.disabled=false;
+    }
+    }
+
+    async function clearDateFilter(){
+    startDateInput.value="";
+    endDateInput.value="";
+    dateFilterActive=false;
+    selectedCalendarDate=null;
+    filterMessage.textContent="";
+    renderCalendar();
+    await loadEntries();
+    }
+    applyDateFilterButton.addEventListener("click",applyDateFilter);
+    clearDateFilterButton.addEventListener("click",clearDateFilter);
+
+    function renderEntries(){
+    const query=searchInput.value.trim().toLowerCase();
+    const filtered=entries.filter(entry=>{
+    const tags=Array.isArray(entry.tags)?entry.tags.join(" ").toLowerCase():"";
+    return(entry.title||"").toLowerCase().includes(query)||
+    (entry.content||"").toLowerCase().includes(query)||
+    (entry.category||"").toLowerCase().includes(query)||
+    (entry.mood||"").toLowerCase().includes(query)||
+    tags.includes(query);
+    });
+    entriesContainer.replaceChildren();
+    if(!filtered.length){
+    const empty=document.createElement("div");
+    empty.className="glass-card";
+    empty.textContent=query?"No matching memories found. 💗":favoritesMode?"No favorites yet. Save a memory with ⭐.":"No entries found. Start writing your story! ✨";
+    entriesContainer.appendChild(empty);
+    return;
+    }
+    filtered.forEach(entry=>{
+    const card=document.createElement("article");
+    card.className="entry";
+    const heading=document.createElement("h3");
+    heading.textContent=entry.title||"";
+    const created=document.createElement("small");
+    created.textContent=entry.createdAt?"Created: "+new Date(entry.createdAt).toLocaleString():"";
+    const meta=document.createElement("div");
+    meta.className="entry-meta";
+    if(entry.category){
+    const badge=document.createElement("span");
+    badge.className="category-badge";
+    badge.textContent="Category: "+entry.category;
+    meta.appendChild(badge);
+    }
+    if(entry.mood){
+    const badge=document.createElement("span");
+    badge.className="category-badge";
+    badge.textContent="Mood: "+entry.mood;
+    meta.appendChild(badge);
+    }
+    if(Array.isArray(entry.tags)){
+    entry.tags.forEach(tag=>{
+    const badge=document.createElement("span");
+    badge.className="tag-badge";
+    badge.textContent="#"+tag;
+    meta.appendChild(badge);
+    });
+    }
+    const content=document.createElement("p");
+    content.textContent=entry.content||"";
+    const actions=document.createElement("div");
+    actions.className="entry-actions";
+    const favorite=document.createElement("button");
+    favorite.type="button";
+    favorite.className=entry.favorite?"btn btn-favorite active":"btn btn-favorite";
+    favorite.textContent=entry.favorite?"★ Favorited":"☆ Favorite";
+    favorite.addEventListener("click",()=>toggleFavorite(entry.id));
+    const edit=document.createElement("button");
+    edit.type="button";
+    edit.className="btn";
+    edit.textContent="Edit ✏️";
+    edit.addEventListener("click",()=>startEdit(entry));
+    const remove=document.createElement("button");
+    remove.type="button";
+    remove.className="btn btn-danger";
+    remove.textContent="Delete";
+    remove.addEventListener("click",()=>deleteEntry(entry.id));
+    actions.append(favorite,edit,remove);
+    card.append(heading,created);
+    if(meta.childElementCount)card.appendChild(meta);
+    card.append(content,actions);
+    entriesContainer.appendChild(card);
+    });
+    }
+    searchInput.addEventListener("input",renderEntries);
+
+    form.addEventListener("submit",async event=>{
+    event.preventDefault();
+    const entry={
+    title:titleInput.value.trim(),
+    content:contentInput.value.trim(),
+    category:categoryInput.value,
+    mood:moodInput.value,
+    tags:tagsInput.value.split(",").map(tag=>tag.trim()).filter(Boolean)
+    };
+    if(!entry.title||!entry.content){
+    message.textContent="Please fill in title and content.";
+    return;
+    }
+    const url=editingId?`${API_URL}/${encodeURIComponent(editingId)}`:API_URL;
+    saveButton.disabled=true;
+    try{
+    const response=await fetch(url,{
+    method:editingId?"PUT":"POST",
+    credentials:"same-origin",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify(entry)
+    });
+    if(!response.ok)throw new Error("Could not save your entry.");
+    message.textContent=editingId?"Your memory has been updated! 💜":"A new memory has been saved! ✨";
+    resetForm();
+    await loadCalendarEntries();
+    if(favoritesMode){
+    await loadFavorites();
+    await loadMoodStats();
+    }else if(dateFilterActive){
+    await applyDateFilter();
+    await loadMoodStats();
+    }else{
+    await loadEntries();
+    }
+    }catch(error){
+    message.textContent=error.message;
+    }finally{
+    saveButton.disabled=false;
+    }
+    });
+
+    function startEdit(entry){
+    editingId=entry.id;
+    titleInput.value=entry.title||"";
+    contentInput.value=entry.content||"";
+    categoryInput.value=entry.category||"";
+    moodInput.value=entry.mood||"";
+    tagsInput.value=Array.isArray(entry.tags)?entry.tags.join(", "):"";
+    $("formHeading").textContent="Edit Your Memory ✨";
+    saveButton.textContent="Update Entry 💜";
+    cancelButton.classList.remove("hidden");
+    titleInput.focus();
+    window.scrollTo({top:0,behavior:"smooth"});
+    }
+
+    async function deleteEntry(id){
+    if(!confirm("Are you sure you want to delete this memory?"))return;
+    try{
+    const response=await fetch(`${API_URL}/${encodeURIComponent(id)}`,{
+    method:"DELETE",
+    credentials:"same-origin"
+    });
+    if(!response.ok)throw new Error("Could not delete this entry.");
+    message.textContent="Memory deleted successfully.";
+    await loadCalendarEntries();
+    if(favoritesMode){
+    await loadFavorites();
+    await loadMoodStats();
+    }else if(dateFilterActive){
+    await applyDateFilter();
+    await loadMoodStats();
+    }else{
+    await loadEntries();
+    }
+    }catch(error){
+    message.textContent=error.message;
+    }
+    }
+
+    function resetForm(){
+    form.reset();
+    editingId=null;
+    $("formHeading").textContent="Write a new entry ✍️";
+    saveButton.textContent="Save Entry 💜";
+    cancelButton.classList.add("hidden");
+    }
+    cancelButton.addEventListener("click",resetForm);
+
+    applySavedTheme();
+    renderCalendar();
+    showLogin();
+</script>
+</body>
+</html>
